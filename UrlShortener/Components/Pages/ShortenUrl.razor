@@ -1,0 +1,73 @@
+﻿@page "/shorten"
+@rendermode InteractiveServer
+
+<h1 class="mb-4">Shorten URL</h1>
+
+<form class="mb-3">
+    <div class="mb-3">
+        <label for="originalUrl" class="form-label">Enter the original URL:</label>
+        <input id="originalUrl" @bind="OriginalUrl" class="form-control" />
+    </div>
+    <button type="button" @onclick="ShortenUrlAsync" class="btn btn-primary">Shorten URL</button>
+</form>
+
+<div class="mb-3">
+    <p>Shortened URL: @ShortenedUrl</p>
+    <button @onclick="CopyToClipboard" class="btn btn-secondary">Copy url</button>
+</div>
+
+
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+<h2>Retrieve Full URL</h2>
+
+<form>
+    <label for="shortenedUrlInput">Enter the shortened URL:</label>
+    <input id="shortenedUrlInput" @bind="InputShortenedUrl" />
+    <button type="button" @onclick="GetFullUrlAsync">Get Full URL</button>
+</form>
+
+@if (!string.IsNullOrEmpty(FullUrl))
+{
+    <p class="text-break">Full URL: <a href="@FullUrl">@FullUrl</a></p>
+}
+<div class="card mt-5">
+    <h3 class="card-header">URL List</h3>
+
+    <div class="card-body table-bordered ">
+        @if (UrlList == null || !UrlList.Any())
+        {
+            <p>No URLs found.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Original URL</th>
+                        <th>Shortened URL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var url in UrlList)
+                    {
+                        <tr class="mh-2">
+                            <td><a href="@url.OriginalUrl" title="@url.OriginalUrl">@url.OriginalUrl.Substring(0, Math.Min(url.OriginalUrl.Length, 100))@(url.OriginalUrl.Length > 100 ? "..." : "")</a></td>
+                            <td class="align-content-md-center">@url.ShortenedUrl</td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="() => DeleteUrl(url.ShortenedUrl)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
