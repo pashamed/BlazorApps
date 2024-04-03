@@ -1,4 +1,4 @@
-# UrlShortener
+# Blazzor Apps
 
 <p>This is a Blazor app playground</p>
 <p>Implemented features</p>
