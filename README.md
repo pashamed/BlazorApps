@@ -1,9 +1,9 @@
 # UrlShortener
 
 <p>This is a Blazor app playground</p>
-<p>Implemented services</p>
+<p>Implemented features</p>
 <ul>
   <li>
-    Url Shortener Service
+    Url Shortener
   </li>
 </ul>
